@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WineRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -23,6 +25,17 @@ class Wine
 
     #[ORM\Column(nullable: true)]
     private ?int $year = null;
+
+    /**
+     * @var Collection<int, Measuring>
+     */
+    #[ORM\OneToMany(targetEntity: Measuring::class, mappedBy: 'Wine')]
+    private Collection $measurings;
+
+    public function __construct()
+    {
+        $this->measurings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -49,6 +62,36 @@ class Wine
     public function setYear(?int $year): static
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Measuring>
+     */
+    public function getMeasurings(): Collection
+    {
+        return $this->measurings;
+    }
+
+    public function addMeasuring(Measuring $measuring): static
+    {
+        if (!$this->measurings->contains($measuring)) {
+            $this->measurings->add($measuring);
+            $measuring->setWine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeasuring(Measuring $measuring): static
+    {
+        if ($this->measurings->removeElement($measuring)) {
+            // set the owning side to null (unless already changed)
+            if ($measuring->getWine() === $this) {
+                $measuring->setWine(null);
+            }
+        }
 
         return $this;
     }
