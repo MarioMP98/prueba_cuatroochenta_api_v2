@@ -2,23 +2,24 @@
 
 namespace App\Entity;
 
+use App\Interface\MeasuringInterface;
 use App\Repository\MeasuringRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MeasuringRepository::class)]
-class MeasuringColor extends Measuring
+class MeasuringColor extends Measuring implements MeasuringInterface
 {
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
 
-    public function getColor(): ?string
+    public function getValue(): ?string
     {
         return $this->color;
     }
 
-    public function setColor(?string $color): static
+    public function setValue($value): static
     {
-        $this->color = $color;
+        $this->color = $value;
 
         return $this;
     }

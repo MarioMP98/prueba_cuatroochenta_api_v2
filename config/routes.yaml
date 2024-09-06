@@ -3,3 +3,26 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+
+######## MEASURING #######
+
+measuring_list:
+    path:       /api/measurings
+    controller: App\Controller\MeasuringController::list
+    methods:    GET
+
+measuring_create:
+    path:       /api/measurings
+    controller: App\Controller\MeasuringController::create
+    methods:    POST
+
+measuring_update:
+    path:       /api/measurings/{id}
+    controller: App\Controller\MeasuringController::update
+    methods:    POST
+
+measuring_delete:
+    path:       /api/measurings/{id}
+    controller: App\Controller\MeasuringController::delete
+    methods:    DELETE

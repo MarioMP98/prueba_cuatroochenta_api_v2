@@ -11,33 +11,32 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MeasuringRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, )
     {
         parent::__construct($registry, Measuring::class);
     }
 
-//    /**
-//     * @return Measuring[] Returns an array of Measuring objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function list(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $sql = 'SELECT m FROM App\Entity\Measuring m';
 
-//    public function findOneBySomeField($value): ?Measuring
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $entityManager->createQuery($sql);
+
+        return $query->getResult();
+    }
+
+    public function save($measuring): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($measuring);
+        $entityManager->flush();
+    }
+
+    public function delete($measuring): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($measuring);
+        $entityManager->flush();
+    }
 }
