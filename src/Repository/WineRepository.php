@@ -16,28 +16,27 @@ class WineRepository extends ServiceEntityRepository
         parent::__construct($registry, Wine::class);
     }
 
-    //    /**
-    //     * @return Wine[] Returns an array of Wine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function list(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $sql = 'SELECT w FROM App\Entity\Wine w';
 
-    //    public function findOneBySomeField($value): ?Wine
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $query = $entityManager->createQuery($sql);
+
+        return $query->getResult();
+    }
+
+    public function save($wine): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($wine);
+        $entityManager->flush();
+    }
+
+    public function delete($wine): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($wine);
+        $entityManager->flush();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\WineInterface;
 use App\Repository\WineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: WineRepository::class)]
-class Wine
+class Wine implements WineInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;

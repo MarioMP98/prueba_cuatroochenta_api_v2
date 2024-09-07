@@ -4,6 +4,50 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+######### SENSOR #########
+
+sensor_list:
+    path:       /api/sensors
+    controller: App\Controller\SensorController::list
+    methods:    GET
+
+sensor_create:
+    path:       /api/sensors
+    controller: App\Controller\SensorController::create
+    methods:    POST
+
+sensor_update:
+    path:       /api/sensors/{id}
+    controller: App\Controller\SensorController::update
+    methods:    POST
+
+sensor_delete:
+    path:       /api/sensors/{id}
+    controller: App\Controller\SensorController::delete
+    methods:    DELETE
+
+
+########## WINE ##########
+
+wine_list:
+    path:       /api/wines
+    controller: App\Controller\WineController::list
+    methods:    GET
+
+wine_create:
+    path:       /api/wines
+    controller: App\Controller\WineController::create
+    methods:    POST
+
+wine_update:
+    path:       /api/wines/{id}
+    controller: App\Controller\WineController::update
+    methods:    POST
+
+wine_delete:
+    path:       /api/wines/{id}
+    controller: App\Controller\WineController::delete
+    methods:    DELETE
 
 ######## MEASURING #######
 

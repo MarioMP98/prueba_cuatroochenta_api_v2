@@ -3,10 +3,10 @@
 namespace App\Factory;
 
 use App\Entity\MeasuringTemp;
-use App\Interface\AbstractFactory;
+use App\Interface\MeasuringAbstractFactory;
 use App\Interface\MeasuringInterface;
 
-class MeasuringTempFactory implements AbstractFactory
+class MeasuringTempFactory implements MeasuringAbstractFactory
 {
     public function createMeasuring(): MeasuringInterface
     {

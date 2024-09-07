@@ -16,28 +16,27 @@ class SensorRepository extends ServiceEntityRepository
         parent::__construct($registry, Sensor::class);
     }
 
-    //    /**
-    //     * @return Sensor[] Returns an array of Sensor objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function list(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $sql = 'SELECT s FROM App\Entity\Sensor s';
 
-    //    public function findOneBySomeField($value): ?Sensor
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $query = $entityManager->createQuery($sql);
+
+        return $query->getResult();
+    }
+
+    public function save($sensor): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($sensor);
+        $entityManager->flush();
+    }
+
+    public function delete($sensor): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($sensor);
+        $entityManager->flush();
+    }
 }

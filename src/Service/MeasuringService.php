@@ -2,12 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Measuring;
 use App\Factory\MeasuringColorFactory;
 use App\Factory\MeasuringGradFactory;
 use App\Factory\MeasuringPhFactory;
 use App\Factory\MeasuringTempFactory;
-use App\Interface\AbstractFactory;
+use App\Interface\MeasuringAbstractFactory;
 use App\Interface\MeasuringInterface;
 use App\Repository\MeasuringRepository;
 use App\Repository\SensorRepository;
@@ -55,7 +54,7 @@ class MeasuringService
     }
 
 
-    public function update($id, $params): Measuring|null
+    public function update($id, $params): MeasuringInterface|null
     {
         $measuring = $this->repository->find($id);
 
@@ -68,7 +67,7 @@ class MeasuringService
     }
 
 
-    public function delete($id, $soft = true): Measuring|null
+    public function delete($id, $soft = true): MeasuringInterface|null
     {
         $measuring = $this->repository->find($id);
 
@@ -81,6 +80,7 @@ class MeasuringService
                 $this->repository->delete($measuring);
             } 
         }
+
         return $measuring;
     }
 
@@ -100,7 +100,7 @@ class MeasuringService
         return [$sensor, $wine];
     }
 
-    private function selectFactory($value): AbstractFactory
+    private function selectFactory($value): MeasuringAbstractFactory|null
     {
         switch ($value) {
             case "color":

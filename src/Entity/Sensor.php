@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: SensorRepository::class)]
-class Sensor
+class Sensor implements SensorInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
