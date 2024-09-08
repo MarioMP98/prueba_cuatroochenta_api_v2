@@ -3,10 +3,9 @@
 namespace App\Factory;
 
 use App\Entity\Sensor;
-use App\Interface\SensorAbstractFactory;
 use App\Interface\SensorInterface;
 
-class SensorFactory implements SensorAbstractFactory
+class SensorFactory
 {
     public function createSensor(): SensorInterface
     {

@@ -3,10 +3,9 @@
 namespace App\Factory;
 
 use App\Entity\Wine;
-use App\Interface\WineAbstractFactory;
 use App\Interface\WineInterface;
 
-class WineFactory implements WineAbstractFactory
+class WineFactory
 {
     public function createWine(): WineInterface
     {

@@ -4,6 +4,18 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+########## USER ##########
+
+user_register:
+    path:       /api/users
+    controller: App\Controller\RegistrationController::register
+    methods:    POST
+
+user_list:
+    path:       /api/users
+    controller: App\Controller\RegistrationController::list
+    methods:    GET
+
 ######### SENSOR #########
 
 sensor_list:
