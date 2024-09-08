@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WineController extends AbstractController
 {
-    protected $service;
+    protected WineService $service;
 
 
     public function __construct(WineService $service)

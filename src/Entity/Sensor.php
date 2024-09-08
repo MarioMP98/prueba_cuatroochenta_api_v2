@@ -72,11 +72,9 @@ class Sensor implements SensorInterface
 
     public function removeMeasuring(Measuring $measuring): static
     {
-        if ($this->measurings->removeElement($measuring)) {
+        if ($this->measurings->removeElement($measuring) && $measuring->getSensor() === $this) {
             // set the owning side to null (unless already changed)
-            if ($measuring->getSensor() === $this) {
-                $measuring->setSensor(null);
-            }
+            $measuring->setSensor(null);
         }
 
         return $this;

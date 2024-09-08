@@ -87,11 +87,9 @@ class Wine implements WineInterface
 
     public function removeMeasuring(Measuring $measuring): static
     {
-        if ($this->measurings->removeElement($measuring)) {
+        if ($this->measurings->removeElement($measuring) && $measuring->getWine() === $this) {
             // set the owning side to null (unless already changed)
-            if ($measuring->getWine() === $this) {
-                $measuring->setWine(null);
-            }
+            $measuring->setWine(null);
         }
 
         return $this;

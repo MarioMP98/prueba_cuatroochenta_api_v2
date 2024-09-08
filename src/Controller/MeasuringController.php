@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MeasuringController extends AbstractController
 {
-    protected $service;
+    protected MeasuringService $service;
 
 
     public function __construct(MeasuringService $service)

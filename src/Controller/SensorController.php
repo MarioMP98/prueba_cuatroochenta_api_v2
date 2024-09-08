@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SensorController extends AbstractController
 {
-    protected $service;
+    protected SensorService $service;
 
 
     public function __construct(SensorService $service)
@@ -69,7 +69,7 @@ class SensorController extends AbstractController
 
             $sensor = $this->service->update($id, $request->request->all());
 
-        } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("There was an error while updating the sensor");
         }

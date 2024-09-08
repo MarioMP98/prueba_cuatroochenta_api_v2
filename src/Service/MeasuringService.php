@@ -12,15 +12,15 @@ use App\Repository\MeasuringRepository;
 use App\Repository\SensorRepository;
 use App\Repository\WineRepository;
 use App\Traits\Parser;
+use DateTime;
 
 class MeasuringService
 {
     use Parser;
 
-    protected $repository;
-    protected $sensorRepository;
-    protected $wineRepository;
-
+    protected MeasuringRepository $repository;
+    protected SensorRepository $sensorRepository;
+    protected WineRepository $wineRepository;
 
     public function __construct(
         MeasuringRepository $repository,
@@ -32,14 +32,12 @@ class MeasuringService
         $this->wineRepository = $wineRepository;
     }
 
-
     public function list(): array
     {
         $measurings = $this->repository->list();
 
         return $this->parseMeasurings($measurings);
     }
-
 
     public function create($params): MeasuringInterface
     {
@@ -48,11 +46,11 @@ class MeasuringService
         $measuring = $factory->createMeasuring();
         
         $this->assignValues($measuring, $params);
+        $this->handleRelationships($measuring, $params);
         $this->repository->save($measuring);
 
         return $measuring;
     }
-
 
     public function update($id, $params): MeasuringInterface|null
     {
@@ -60,12 +58,12 @@ class MeasuringService
 
         if ($measuring) {
             $this->updateValues($measuring, $params);
+            $this->handleRelationships($measuring, $params);
             $this->repository->save($measuring);
         }
 
         return $measuring;
     }
-
 
     public function delete($id, $soft = true): MeasuringInterface|null
     {
@@ -73,18 +71,69 @@ class MeasuringService
 
         if ($measuring) {
 
-            if($soft) {
-                $measuring->setDeletedAt(new \DateTime());
+            if ($soft) {
+                $measuring->setDeletedAt(new DateTime());
                 $this->repository->save($measuring);
             } else {
                 $this->repository->delete($measuring);
-            } 
+            }
         }
 
         return $measuring;
     }
 
-    private function getSensorAndWine($params): array
+    private function selectFactory($value): MeasuringAbstractFactory|null
+    {
+        return match ($value) {
+            "color" => new MeasuringColorFactory(),
+            "temp" => new MeasuringTempFactory(),
+            "graduation" => new MeasuringGradFactory(),
+            "ph" => new MeasuringPhFactory(),
+            default => null,
+        };
+    }
+
+    private function assignValues($measuring, $params): void
+    {
+        if (isset($params['year'])) {
+            $measuring->setYear(intval($params['year']) ?: null);
+        }
+
+        if (isset($params['type']) && isset($params['value'])) {
+            $measuring->setValue($params['value']);
+        }
+        
+        $measuring->setCreatedAt(new DateTime());
+        $measuring->setUpdatedAt(new DateTime());
+    }
+
+    private function updateValues($measuring, $params): void
+    {
+        if (isset($params['year'])) {
+            $measuring->setYear(intval($params['year']) ?: null);
+        }
+
+        if (isset($params['value'])) {
+            $measuring->setValue($params['value']);
+        }
+        
+        $measuring->setUpdatedAt(new DateTime());
+    }
+
+    private function handleRelationships($measuring, $params)
+    {
+        [$sensor, $wine] = $this->getRelatedEntities($params);
+        
+        if ($sensor) {
+            $measuring->setSensor($sensor);
+        }
+
+        if ($wine) {
+            $measuring->setWine($wine);
+        }
+    }
+
+    private function getRelatedEntities($params): array
     {
         $sensor = null;
         $wine = null;
@@ -98,55 +147,5 @@ class MeasuringService
         }
 
         return [$sensor, $wine];
-    }
-
-    private function selectFactory($value): MeasuringAbstractFactory|null
-    {
-        switch ($value) {
-            case "color":
-                $factory = new MeasuringColorFactory();
-                break;
-            case "temp":
-                $factory = new MeasuringTempFactory();
-                break;
-            case "graduation":
-                $factory = new MeasuringGradFactory();
-                break;
-            case "ph":
-                $factory = new MeasuringPhFactory();
-                break;
-            default:
-                $factory = null;
-                break;
-        }
-
-        return $factory;
-    }
-
-    private function assignValues($measuring, $params): void
-    {
-        if(isset($params['year'])) {
-            $measuring->setYear(intval($params['year']) ?: null);
-        }
-
-        if (isset($params['type']) && isset($params['value'])) {
-            $measuring->setValue($params['value']);
-        }
-        
-        $measuring->setCreatedAt(new \DateTime());   
-        $measuring->setUpdatedAt(new \DateTime());
-    }
-
-    private function updateValues($measuring, $params): void
-    {
-        if(isset($params['year'])) {
-            $measuring->setYear(intval($params['year']) ?: null);
-        }
-
-        if (isset($params['value'])) {
-            $measuring->setValue($params['value']);
-        }
-        
-        $measuring->setUpdatedAt(new \DateTime());
     }
 }

@@ -2,14 +2,15 @@
 
 namespace App\Traits;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 trait Parser
 {
-
     private function parseUsers($users): array
     {
         $arrayCollection = array();
 
-        foreach($users as $item) {
+        foreach ($users as $item) {
 
             $arrayCollection[] = $this->parseUser($item);
         }
@@ -18,9 +19,10 @@ trait Parser
     }
 
 
+    #[ArrayShape(['id' => "", 'name' => "", 'last_name' => "", 'email' => ""])]
     private function parseUser($item): array
     {
-        
+
         return array(
             'id' => $item->getId(),
             'name' => $item->getName(),
@@ -34,7 +36,7 @@ trait Parser
     {
         $arrayCollection = array();
 
-        foreach($sensors as $item) {
+        foreach ($sensors as $item) {
 
             $arrayCollection[] = $this->parseSensor($item);
         }
@@ -43,6 +45,7 @@ trait Parser
     }
 
 
+    #[ArrayShape(['id' => "", 'name' => ""])]
     private function parseSensor($item): array
     {
 
@@ -57,7 +60,7 @@ trait Parser
     {
         $arrayCollection = array();
 
-        foreach($wines as $item) {
+        foreach ($wines as $item) {
 
             $arrayCollection[] = $this->parseWine($item, $withMeasurings);
         }
@@ -66,6 +69,7 @@ trait Parser
     }
 
 
+    #[ArrayShape(['id' => "", 'name' => "", 'year' => "", 'measurings' => "array"])]
     private function parseWine($item, $withMeasurings = true): array
     {
         $wine = array(
@@ -87,7 +91,7 @@ trait Parser
     {
         $arrayCollection = array();
 
-        foreach($measurings as $item) {
+        foreach ($measurings as $item) {
 
             $arrayCollection[] = $this->parseMeasuring($item, $withWine);
         }
@@ -96,23 +100,26 @@ trait Parser
     }
 
 
+    #[ArrayShape(['id' => "", 'year' => "", 'value' => ""])]
     private function parseMeasuring($item, $withWine = true): array
     {
-
         $measuring = array(
             'id' => $item->getId(),
             'year' => $item->getYear(),
+            'type' => $item->getType(),
             'value' => $item->getValue(),
-            //'temperature' => $item->getTemperature() ? number_format($item->getTemperature(),2,',','.') . ' ºC' : null,
+            //'temperature' => $item->getTemperature() ?
+            //  number_format($item->getTemperature(),2,',','.') . ' ºC' :
+            //  null,
             //'graduation' => $item->getGraduation(),
             //'PH' => $item->getPh(),
-            //'sensor' => $item->getSensor() ? $this->parseSensor($item->getSensor()) : null
+            'sensor' => $item->getSensor() ? $this->parseSensor($item->getSensor()) : null
         );
 
-        /* if($withWine) {
+        if ($withWine) {
 
             $measuring['wine'] = $item->getWine() ? $this->parseWine($item->getWine(), false) : null;
-        } */
+        }
 
         return $measuring;
     }

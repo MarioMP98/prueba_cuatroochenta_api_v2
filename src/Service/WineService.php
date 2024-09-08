@@ -6,13 +6,14 @@ use App\Factory\WineFactory;
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
 use App\Traits\Parser;
+use DateTime;
 
 class WineService
 {
     use Parser;
 
-    protected $repository;
-    protected $factory;
+    protected WineRepository $repository;
+    protected WineFactory $factory;
 
     public function __construct(
         WineRepository $repository,
@@ -57,12 +58,12 @@ class WineService
 
         if ($wine) {
 
-            if($soft) {
-                $wine->setDeletedAt(new \DateTime());
+            if ($soft) {
+                $wine->setDeletedAt(new DateTime());
                 $this->repository->save($wine);
             } else {
                 $this->repository->delete($wine);
-            } 
+            }
         }
 
         return $wine;
@@ -70,7 +71,7 @@ class WineService
 
     private function assignValues($wine, $params): void
     {
-        if(isset($params['year'])) {
+        if (isset($params['year'])) {
             $wine->setYear(intval($params['year']) ?: null);
         }
 
@@ -79,9 +80,9 @@ class WineService
         }
         
         if (is_null($wine->getId())) {
-            $wine->setCreatedAt(new \DateTime());  
+            $wine->setCreatedAt(new DateTime());
         }
          
-        $wine->setUpdatedAt(new \DateTime());
+        $wine->setUpdatedAt(new DateTime());
     }
 }

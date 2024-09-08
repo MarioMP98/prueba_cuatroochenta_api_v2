@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MeasuringRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, )
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Measuring::class);
     }

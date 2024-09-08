@@ -6,13 +6,14 @@ use App\Factory\SensorFactory;
 use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
 use App\Traits\Parser;
+use DateTime;
 
 class SensorService
 {
     use Parser;
 
-    protected $repository;
-    protected $factory;
+    protected SensorRepository $repository;
+    protected SensorFactory $factory;
 
     public function __construct(
         SensorRepository $repository,
@@ -51,19 +52,18 @@ class SensorService
         return $sensor;
     }
 
-
     public function delete($id, $soft = true): SensorInterface|null
     {
         $sensor = $this->repository->find($id);
 
         if ($sensor) {
 
-            if($soft) {
-                $sensor->setDeletedAt(new \DateTime());
+            if ($soft) {
+                $sensor->setDeletedAt(new DateTime());
                 $this->repository->save($sensor);
             } else {
                 $this->repository->delete($sensor);
-            } 
+            }
         }
 
         return $sensor;
@@ -76,10 +76,9 @@ class SensorService
         }
         
         if (is_null($sensor->getId())) {
-            $sensor->setCreatedAt(new \DateTime());  
+            $sensor->setCreatedAt(new DateTime());
         }
          
-        $sensor->setUpdatedAt(new \DateTime());
+        $sensor->setUpdatedAt(new DateTime());
     }
-
 }
