@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\MeasuringService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,17 +24,18 @@ class MeasuringController extends AbstractController
      *
      * Retrieves and shows a list of all the measurings in the database, including the wine
      * that was measured and the sensor that was used.
+     * @return JsonResponse
      */
     public function list(): JsonResponse
     {
-        /* try { */
+        try {
 
             $measurings = $this->service->list();
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("The measurings couldn't be recovered");
-        } */
+        }
 
         return new JsonResponse($measurings);
     }
@@ -43,17 +45,19 @@ class MeasuringController extends AbstractController
      * Creates a new measuring.
      *
      * Creates a new measuring in the database with the data passed through the request.
+     * @param Request $request
+     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
-        /* try { */
+        try {
 
             $measuring = $this->service->create($request->request->all());
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("There was an error while creating the measuring");
-        } */
+        }
 
         return new JsonResponse('New measuring created with the id: ' . $measuring->getId());
     }
@@ -63,21 +67,24 @@ class MeasuringController extends AbstractController
      * Update an existing measuring
      *
      * Updates an existing measuring in the database with the data passed through the request.
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
      */
     public function update($id, Request $request): JsonResponse
     {
-        /* try { */
+        try {
         
             $measuring = $this->service->update($id, $request->request->all());
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("There was an error while updating the measuring");
-        } */
+        }
 
         if (!$measuring) {
 
-            return new JsonResponse('The measuring to update couldn\'t be found');
+            return new JsonResponse('The measuring to update couldn\'t be found', 404);
         }
 
         return new JsonResponse('The measuring with the id ' . $measuring->getId() . ' was successfully updated');
@@ -89,22 +96,24 @@ class MeasuringController extends AbstractController
      * Delete an existing measuring
      *
      * Deletes an existing measuring in the database.
+     * @param $id
+     * @return JsonResponse
      */
 
     public function delete($id): JsonResponse
     {
-        /* try { */
+        try {
 
             $measuring = $this->service->delete($id);
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("There was an error while deleting the measuring");
-        } */
+        }
 
         if (!$measuring) {
 
-            return new JsonResponse('The measuring to delete couldn\'t be found');
+            return new JsonResponse('The measuring to delete couldn\'t be found', 404);
         }
 
         return new JsonResponse('The measuring was successfully deleted');

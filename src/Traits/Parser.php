@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use JetBrains\PhpStorm\ArrayShape;
-
 trait Parser
 {
     private function parseUsers($users): array
@@ -19,7 +17,6 @@ trait Parser
     }
 
 
-    #[ArrayShape(['id' => "", 'name' => "", 'last_name' => "", 'email' => ""])]
     private function parseUser($item): array
     {
 
@@ -45,7 +42,6 @@ trait Parser
     }
 
 
-    #[ArrayShape(['id' => "", 'name' => ""])]
     private function parseSensor($item): array
     {
 
@@ -69,7 +65,6 @@ trait Parser
     }
 
 
-    #[ArrayShape(['id' => "", 'name' => "", 'year' => "", 'measurings' => "array"])]
     private function parseWine($item, $withMeasurings = true): array
     {
         $wine = array(
@@ -100,7 +95,6 @@ trait Parser
     }
 
 
-    #[ArrayShape(['id' => "", 'year' => "", 'value' => ""])]
     private function parseMeasuring($item, $withWine = true): array
     {
         $measuring = array(
@@ -108,11 +102,6 @@ trait Parser
             'year' => $item->getYear(),
             'type' => $item->getType(),
             'value' => $item->getValue(),
-            //'temperature' => $item->getTemperature() ?
-            //  number_format($item->getTemperature(),2,',','.') . ' ºC' :
-            //  null,
-            //'graduation' => $item->getGraduation(),
-            //'PH' => $item->getPh(),
             'sensor' => $item->getSensor() ? $this->parseSensor($item->getSensor()) : null
         );
 

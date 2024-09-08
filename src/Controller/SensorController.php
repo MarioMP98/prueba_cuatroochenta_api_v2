@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\SensorService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,17 +23,18 @@ class SensorController extends AbstractController
      * Lists the existing sensors.
      *
      * Retrieves and shows a list of all the sensors in the database, ordered alphabetically by name.
+     * @return JsonResponse
      */
     public function list(): JsonResponse
     {
-        /* try { */
+        try {
 
             $sensor = $this->service->list();
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("The sensors couldn't be recovered");
-        } */
+        }
 
         return new JsonResponse($sensor);
     }
@@ -42,17 +44,19 @@ class SensorController extends AbstractController
      * Creates a new sensor.
      *
      * Creates a new sensor in the database with the data passed through the request.
+     * @param Request $request
+     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
-        /* try { */
+        try {
 
             $sensor = $this->service->create($request->request->all());
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
-            return new JsonResponse("There was an error while creating the sensor");
-        } */
+            return new JsonResponse("There was an error while creating the sensor", 404);
+        }
 
         return new JsonResponse('New sensor created with the id: ' . $sensor->getId());
     }
@@ -62,6 +66,9 @@ class SensorController extends AbstractController
      * Update an existing sensor
      *
      * Updates an existing sensor in the database with the data passed through the request.
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
      */
     public function update($id, Request $request): JsonResponse
     {
@@ -76,7 +83,7 @@ class SensorController extends AbstractController
 
         if (!$sensor) {
 
-            return new JsonResponse('The sensor to update couldn\'t be found');
+            return new JsonResponse('The sensor to update couldn\'t be found', 404);
         }
 
         return new JsonResponse('The sensor with the id ' . $sensor->getId() . ' was successfully updated');
@@ -88,20 +95,22 @@ class SensorController extends AbstractController
      * Delete an existing sensor
      *
      * Deletes an existing sensor in the database.
+     * @param $id
+     * @return JsonResponse
      */
     public function delete($id): JsonResponse
     {
-        /* try { */
+        try {
             $sensor = $this->service->delete($id);
 
-        /* } catch (\Exception) {
+        } catch (Exception) {
 
             return new JsonResponse("There was an error while deleting the sensor");
-        } */
+        }
 
         if (!$sensor) {
 
-            return new JsonResponse('The sensor to delete couldn\'t be found');
+            return new JsonResponse('The sensor to delete couldn\'t be found', 404);
         }
 
         return new JsonResponse('The sensor was successfully deleted');

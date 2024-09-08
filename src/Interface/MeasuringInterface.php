@@ -2,6 +2,8 @@
 
 namespace App\Interface;
 
+use DateTime;
+
 interface MeasuringInterface
 {
     public function getId();
@@ -10,11 +12,11 @@ interface MeasuringInterface
 
     public function setYear(?int $year);
 
-    public function setCreatedAt(\DateTime $createdAt);
+    public function setCreatedAt(DateTime $createdAt);
 
-    public function setUpdatedAt(\DateTime $updatedAt);
+    public function setUpdatedAt(DateTime $updatedAt);
 
-    public function setDeletedAt(?\DateTime $deletedAt = null);
+    public function setDeletedAt(?DateTime $deletedAt = null);
 
     public function getValue();
 
