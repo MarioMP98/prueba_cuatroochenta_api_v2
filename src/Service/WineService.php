@@ -2,16 +2,14 @@
 
 namespace App\Service;
 
+use App\Decorator\WineWithMeasuringsDecorator;
 use App\Factory\WineFactory;
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
-use App\Traits\Parser;
 use DateTime;
 
 class WineService
 {
-    use Parser;
-
     protected WineRepository $repository;
     protected WineFactory $factory;
 
@@ -84,5 +82,17 @@ class WineService
         }
          
         $wine->setUpdatedAt(new DateTime());
+    }
+
+    private function parseWines($wines): array
+    {
+        $array = array();
+
+        foreach ($wines as $wine) {
+            $decorator = new WineWithMeasuringsDecorator($wine);
+            $array[] = $decorator->parse();
+        }
+
+        return $array;
     }
 }

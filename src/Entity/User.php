@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Traits\DateParser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -16,6 +17,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
+    use DateParser;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -140,5 +142,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function parse(): array
+    {
+        return array(
+            'id' => $this->id,
+            'email' => $this->email,
+            'name' => $this->name,
+            'last_name' => $this->lastName,
+            'created_at' => $this->formatDateTime($this->createdAt),
+            'updated_at' => $this->formatDateTime($this->updatedAt),
+            'deleted_at' => $this->formatDateTime($this->deletedAt)
+        );
     }
 }

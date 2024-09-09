@@ -2,16 +2,14 @@
 
 namespace App\Service;
 
+use App\Decorator\SensorDecorator;
 use App\Factory\SensorFactory;
 use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
-use App\Traits\Parser;
 use DateTime;
 
 class SensorService
 {
-    use Parser;
-
     protected SensorRepository $repository;
     protected SensorFactory $factory;
 
@@ -80,5 +78,17 @@ class SensorService
         }
          
         $sensor->setUpdatedAt(new DateTime());
+    }
+
+    private function parseSensors($sensors): array
+    {
+        $array = array();
+
+        foreach ($sensors as $sensor) {
+            $decorator = new SensorDecorator($sensor);
+            $array[] = $decorator->parse();
+        }
+
+        return $array;
     }
 }

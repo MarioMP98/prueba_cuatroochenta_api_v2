@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Decorator\MeasuringWithRelationshipDecorator;
 use App\Factory\MeasuringColorFactory;
 use App\Factory\MeasuringGradFactory;
 use App\Factory\MeasuringPhFactory;
@@ -11,13 +12,10 @@ use App\Interface\MeasuringInterface;
 use App\Repository\MeasuringRepository;
 use App\Repository\SensorRepository;
 use App\Repository\WineRepository;
-use App\Traits\Parser;
 use DateTime;
 
 class MeasuringService
 {
-    use Parser;
-
     protected MeasuringRepository $repository;
     protected SensorRepository $sensorRepository;
     protected WineRepository $wineRepository;
@@ -147,5 +145,17 @@ class MeasuringService
         }
 
         return [$sensor, $wine];
+    }
+
+    private function parseMeasurings($measurings): array
+    {
+        $array = array();
+
+        foreach ($measurings as $measuring) {
+            $decorator = new MeasuringWithRelationshipDecorator($measuring);
+            $array[] = $decorator->parse();
+        }
+
+        return $array;
     }
 }

@@ -23,4 +23,19 @@ class MeasuringTemp extends Measuring implements MeasuringInterface
 
         return $this;
     }
+
+    public function parse(): array
+    {
+        return array(
+            'id' => $this->getId(),
+            'year' => $this->getYear(),
+            'type' => "Temperature",
+            'value' => $this->temperature ?
+                number_format($this->temperature, 2, ',', '.') . ' ºC' :
+                null,
+            'created_at' => $this->formatDateTime($this->createdAt),
+            'updated_at' => $this->formatDateTime($this->updatedAt),
+            'deleted_at' => $this->formatDateTime($this->deletedAt)
+        );
+    }
 }

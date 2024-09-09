@@ -2,8 +2,6 @@
 
 namespace App\Interface;
 
-use DateTime;
-
 interface SensorInterface
 {
     public function getId();
@@ -12,9 +10,5 @@ interface SensorInterface
 
     public function setName(?string $name);
 
-    public function setCreatedAt(DateTime $createdAt);
-
-    public function setUpdatedAt(DateTime $updatedAt);
-
-    public function setDeletedAt(?DateTime $deletedAt = null);
+    public function parse(): array;
 }

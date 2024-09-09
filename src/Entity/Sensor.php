@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
+use App\Traits\DateParser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ class Sensor implements SensorInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
+    use DateParser;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +29,7 @@ class Sensor implements SensorInterface
     /**
      * @var Collection<int, Measuring>
      */
-    #[ORM\OneToMany(targetEntity: Measuring::class, mappedBy: 'Sensor')]
+    #[ORM\OneToMany(targetEntity: Measuring::class, mappedBy: 'sensor')]
     private Collection $measurings;
 
     public function __construct()
@@ -78,5 +80,16 @@ class Sensor implements SensorInterface
         }
 
         return $this;
+    }
+
+    public function parse(): array
+    {
+        return array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->formatDateTime($this->createdAt),
+            'updated_at' => $this->formatDateTime($this->updatedAt),
+            'deleted_at' => $this->formatDateTime($this->deletedAt)
+        );
     }
 }

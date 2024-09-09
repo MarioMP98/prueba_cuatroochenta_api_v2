@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MeasuringRepository;
+use App\Traits\DateParser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -22,6 +23,7 @@ class Measuring
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
+    use DateParser;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,10 +34,10 @@ class Measuring
     private ?int $year = null;
 
     #[ORM\ManyToOne(inversedBy: 'measurings')]
-    private ?Sensor $Sensor = null;
+    private ?Sensor $sensor = null;
 
     #[ORM\ManyToOne(inversedBy: 'measurings')]
-    private ?Wine $Wine = null;
+    private ?Wine $wine = null;
 
     public function getId(): ?int
     {
@@ -56,24 +58,24 @@ class Measuring
 
     public function getSensor(): ?Sensor
     {
-        return $this->Sensor;
+        return $this->sensor;
     }
 
-    public function setSensor(?Sensor $Sensor): static
+    public function setSensor(?Sensor $sensor): static
     {
-        $this->Sensor = $Sensor;
+        $this->sensor = $sensor;
 
         return $this;
     }
 
     public function getWine(): ?Wine
     {
-        return $this->Wine;
+        return $this->wine;
     }
 
-    public function setWine(?Wine $Wine): static
+    public function setWine(?Wine $wine): static
     {
-        $this->Wine = $Wine;
+        $this->wine = $wine;
 
         return $this;
     }

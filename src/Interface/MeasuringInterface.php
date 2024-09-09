@@ -21,4 +21,6 @@ interface MeasuringInterface
     public function getValue();
 
     public function setValue($value): static;
+
+    public function parse(): array;
 }

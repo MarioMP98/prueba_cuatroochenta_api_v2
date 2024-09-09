@@ -2,16 +2,14 @@
 
 namespace App\Service;
 
+use App\Decorator\UserDecorator;
 use App\Factory\UserFactory;
 use App\Repository\UserRepository;
-use App\Traits\Parser;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use DateTime;
 
 class UserService
 {
-    use Parser;
-
     protected UserRepository $repository;
     protected UserPasswordHasherInterface $hasher;
     protected UserFactory $factory;
@@ -41,7 +39,9 @@ class UserService
 
         $this->repository->save($user);
 
-        return $this->parseUser($user);
+        $decorator = new UserDecorator($user);
+
+        return $decorator->parse();
     }
 
     private function assignValues($user, $params): void
@@ -59,6 +59,18 @@ class UserService
         }
 
         $user->setUpdatedAt(new DateTime());
+    }
+
+    private function parseUsers($users): array
+    {
+        $array = array();
+
+        foreach ($users as $user) {
+            $decorator = new UserDecorator($user);
+            $array[] = $decorator->parse();
+        }
+
+        return $array;
     }
 
 }

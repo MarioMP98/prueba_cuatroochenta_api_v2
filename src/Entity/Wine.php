@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
+use App\Traits\DateParser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ class Wine implements WineInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
+    use DateParser;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,7 +32,7 @@ class Wine implements WineInterface
     /**
      * @var Collection<int, Measuring>
      */
-    #[ORM\OneToMany(targetEntity: Measuring::class, mappedBy: 'Wine')]
+    #[ORM\OneToMany(targetEntity: Measuring::class, mappedBy: 'wine')]
     private Collection $measurings;
 
     public function __construct()
@@ -93,5 +95,17 @@ class Wine implements WineInterface
         }
 
         return $this;
+    }
+
+    public function parse(): array
+    {
+        return array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'year' => $this->year,
+            'created_at' => $this->formatDateTime($this->createdAt),
+            'updated_at' => $this->formatDateTime($this->updatedAt),
+            'deleted_at' => $this->formatDateTime($this->deletedAt)
+        );
     }
 }

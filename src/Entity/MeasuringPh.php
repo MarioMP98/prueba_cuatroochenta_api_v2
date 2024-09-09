@@ -23,4 +23,19 @@ class MeasuringPh extends Measuring implements MeasuringInterface
 
         return $this;
     }
+
+    public function parse(): array
+    {
+        return array(
+            'id' => $this->getId(),
+            'year' => $this->getYear(),
+            'type' => "PH",
+            'value' => $this->ph ?
+                number_format($this->ph, 2, ',', '.') :
+                null,
+            'created_at' => $this->formatDateTime($this->createdAt),
+            'updated_at' => $this->formatDateTime($this->updatedAt),
+            'deleted_at' => $this->formatDateTime($this->deletedAt),
+        );
+    }
 }
