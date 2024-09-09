@@ -6,6 +6,18 @@ controllers:
 
 ########## USER ##########
 
+login:
+    path:       /api/login
+    methods:    POST
+    controller: App\Controller\ApiLoginController::login
+    defaults:
+        _format: json
+
+logout:
+    path:       /api/logout
+    methods:    POST
+    controller: App\Controller\ApiLoginController::logout
+
 user_register:
     path:       /api/users
     controller: App\Controller\RegistrationController::register
