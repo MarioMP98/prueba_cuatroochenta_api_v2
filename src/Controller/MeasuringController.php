@@ -74,7 +74,7 @@ class MeasuringController extends AbstractController
     public function update($id, Request $request): JsonResponse
     {
         try {
-        
+
             $measuring = $this->service->update($id, $request->request->all());
 
         } catch (Exception) {

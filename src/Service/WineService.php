@@ -31,7 +31,7 @@ class WineService
     public function create($params): WineInterface
     {
         $wine = $this->factory->createWine();
-        
+
         $this->assignValues($wine, $params);
         $this->repository->save($wine);
 
@@ -76,11 +76,11 @@ class WineService
         if (isset($params['name'])) {
             $wine->setName($params['name']);
         }
-        
+
         if (is_null($wine->getId())) {
             $wine->setCreatedAt(new DateTime());
         }
-         
+
         $wine->setUpdatedAt(new DateTime());
     }
 

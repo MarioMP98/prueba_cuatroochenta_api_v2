@@ -31,7 +31,7 @@ class SensorService
     public function create($params): SensorInterface
     {
         $sensor = $this->factory->createSensor();
-        
+
         $this->assignValues($sensor, $params);
         $this->repository->save($sensor);
 
@@ -72,11 +72,11 @@ class SensorService
         if (isset($params['name'])) {
             $sensor->setName($params['name']);
         }
-        
+
         if (is_null($sensor->getId())) {
             $sensor->setCreatedAt(new DateTime());
         }
-         
+
         $sensor->setUpdatedAt(new DateTime());
     }
 

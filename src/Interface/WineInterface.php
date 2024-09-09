@@ -2,8 +2,6 @@
 
 namespace App\Interface;
 
-use DateTime;
-
 interface WineInterface
 {
     public function getId();

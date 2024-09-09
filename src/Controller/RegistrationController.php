@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Service\UserService;
-use App\Traits\Parser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,6 @@ class RegistrationController extends AbstractController
         $this->service = $service;
     }
 
-
     /**
      * Lists the existing users.
      *
@@ -26,12 +24,10 @@ class RegistrationController extends AbstractController
      */
     public function list(): JsonResponse
     {
-        
         $users = $this->service->list();
 
         return new JsonResponse($users, 200);
     }
-
 
     /**
      * Registers a new user.
@@ -42,10 +38,8 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request): JsonResponse
     {
-        
         $user = $this->service->create($request->request->all());
 
         return new JsonResponse($user, 201);
     }
-
 }

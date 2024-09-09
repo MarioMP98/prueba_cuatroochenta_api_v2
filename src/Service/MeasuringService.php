@@ -42,7 +42,7 @@ class MeasuringService
         $factory = $this->selectFactory($params['type']);
 
         $measuring = $factory->createMeasuring();
-        
+
         $this->assignValues($measuring, $params);
         $this->handleRelationships($measuring, $params);
         $this->repository->save($measuring);
@@ -100,7 +100,7 @@ class MeasuringService
         if (isset($params['type']) && isset($params['value'])) {
             $measuring->setValue($params['value']);
         }
-        
+
         $measuring->setCreatedAt(new DateTime());
         $measuring->setUpdatedAt(new DateTime());
     }
@@ -114,14 +114,14 @@ class MeasuringService
         if (isset($params['value'])) {
             $measuring->setValue($params['value']);
         }
-        
+
         $measuring->setUpdatedAt(new DateTime());
     }
 
     private function handleRelationships($measuring, $params)
     {
         [$sensor, $wine] = $this->getRelatedEntities($params);
-        
+
         if ($sensor) {
             $measuring->setSensor($sensor);
         }
