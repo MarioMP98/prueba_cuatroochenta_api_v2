@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends AbstractController
 {
-    use Parser;
-
     protected UserService $service;
 
     public function __construct(UserService $service)
