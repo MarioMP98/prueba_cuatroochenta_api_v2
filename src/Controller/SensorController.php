@@ -96,12 +96,13 @@ class SensorController extends AbstractController
      *
      * Deletes an existing sensor in the database.
      * @param $id
+     * @param bool $soft
      * @return JsonResponse
      */
-    public function delete($id): JsonResponse
+    public function delete($id, $soft = true): JsonResponse
     {
         try {
-            $sensor = $this->service->delete($id);
+            $sensor = $this->service->delete($id, $soft);
 
         } catch (Exception) {
 

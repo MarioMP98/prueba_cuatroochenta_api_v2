@@ -97,14 +97,15 @@ class MeasuringController extends AbstractController
      *
      * Deletes an existing measuring in the database.
      * @param $id
+     * @param bool $soft
      * @return JsonResponse
      */
 
-    public function delete($id): JsonResponse
+    public function delete($id, $soft = true): JsonResponse
     {
         try {
 
-            $measuring = $this->service->delete($id);
+            $measuring = $this->service->delete($id, $soft);
 
         } catch (Exception) {
 

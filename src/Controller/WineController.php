@@ -96,13 +96,14 @@ class WineController extends AbstractController
      *
      * Deletes an existing wine in the database.
      * @param $id
+     * @param bool $soft
      * @return JsonResponse
      */
-    public function delete($id): JsonResponse
+    public function delete($id, $soft = true): JsonResponse
     {
         try {
 
-            $wine = $this->service->delete($id);
+            $wine = $this->service->delete($id, $soft);
 
         } catch (Exception) {
 

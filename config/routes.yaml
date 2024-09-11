@@ -19,7 +19,7 @@ logout:
     controller: App\Controller\ApiLoginController::logout
 
 user_register:
-    path:       /api/users
+    path:       /api/register
     controller: App\Controller\RegistrationController::register
     methods:    POST
 
@@ -46,7 +46,7 @@ sensor_update:
     methods:    POST
 
 sensor_delete:
-    path:       /api/sensors/{id}
+    path:       /api/sensors/{id}/{soft}
     controller: App\Controller\SensorController::delete
     methods:    DELETE
 
@@ -69,7 +69,7 @@ wine_update:
     methods:    POST
 
 wine_delete:
-    path:       /api/wines/{id}
+    path:       /api/wines/{id}/{soft}
     controller: App\Controller\WineController::delete
     methods:    DELETE
 
@@ -91,6 +91,6 @@ measuring_update:
     methods:    POST
 
 measuring_delete:
-    path:       /api/measurings/{id}
+    path:       /api/measurings/{id}/{soft}
     controller: App\Controller\MeasuringController::delete
     methods:    DELETE
