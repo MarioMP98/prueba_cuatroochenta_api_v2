@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Collection\UserCollection;
 use App\Decorator\UserDecorator;
 use App\Factory\UserFactory;
 use App\Repository\UserRepository;
@@ -26,9 +27,9 @@ class UserService
 
     public function list(): array
     {
-        $users = $this->repository->findAll();
+        $users = new UserCollection($this->repository->findAll());
 
-        return $this->parseUsers($users);
+        return $users->getItems();
     }
 
     public function create($params): array
@@ -60,17 +61,4 @@ class UserService
 
         $user->setUpdatedAt(new DateTime());
     }
-
-    private function parseUsers($users): array
-    {
-        $array = array();
-
-        foreach ($users as $user) {
-            $decorator = new UserDecorator($user);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
-    }
-
 }

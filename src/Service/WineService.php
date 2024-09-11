@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Decorator\WineWithMeasuringsDecorator;
+use App\Collection\WineCollection;
 use App\Factory\WineFactory;
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
@@ -23,9 +23,9 @@ class WineService
 
     public function list($params): array
     {
-        $wines = $this->repository->list($params);
+        $wines = new WineCollection($this->repository->list($params));
 
-        return $this->parseWines($wines);
+        return $wines->getItems();
     }
 
     public function create($params): WineInterface
@@ -82,17 +82,5 @@ class WineService
         }
 
         $wine->setUpdatedAt(new DateTime());
-    }
-
-    private function parseWines($wines): array
-    {
-        $array = array();
-
-        foreach ($wines as $wine) {
-            $decorator = new WineWithMeasuringsDecorator($wine);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
     }
 }

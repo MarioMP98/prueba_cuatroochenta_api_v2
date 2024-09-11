@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Decorator\MeasuringWithRelationshipDecorator;
+use App\Collection\MeasuringCollection;
 use App\Factory\MeasuringColorFactory;
 use App\Factory\MeasuringGradFactory;
 use App\Factory\MeasuringPhFactory;
@@ -32,9 +32,9 @@ class MeasuringService
 
     public function list($params): array
     {
-        $measurings = $this->repository->list($params);
+        $measurings = new MeasuringCollection($this->repository->list($params));
 
-        return $this->parseMeasurings($measurings);
+        return $measurings->getItems();
     }
 
     public function create($params): MeasuringInterface
@@ -145,17 +145,5 @@ class MeasuringService
         }
 
         return [$sensor, $wine];
-    }
-
-    private function parseMeasurings($measurings): array
-    {
-        $array = array();
-
-        foreach ($measurings as $measuring) {
-            $decorator = new MeasuringWithRelationshipDecorator($measuring);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
     }
 }

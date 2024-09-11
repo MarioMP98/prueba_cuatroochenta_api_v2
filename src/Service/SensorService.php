@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Decorator\SensorDecorator;
+use App\Collection\SensorCollection;
 use App\Factory\SensorFactory;
 use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
@@ -23,9 +23,9 @@ class SensorService
 
     public function list($params): array
     {
-        $sensors = $this->repository->list($params);
+        $sensors = new SensorCollection($this->repository->list($params));
 
-        return $this->parseSensors($sensors);
+        return $sensors->getItems();
     }
 
     public function create($params): SensorInterface
@@ -78,17 +78,5 @@ class SensorService
         }
 
         $sensor->setUpdatedAt(new DateTime());
-    }
-
-    private function parseSensors($sensors): array
-    {
-        $array = array();
-
-        foreach ($sensors as $sensor) {
-            $decorator = new SensorDecorator($sensor);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
     }
 }
