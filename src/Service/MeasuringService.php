@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Collection\MeasuringCollection;
+use App\Factory\MeasuringAllFactory;
 use App\Factory\MeasuringColorFactory;
 use App\Factory\MeasuringGradFactory;
 use App\Factory\MeasuringPhFactory;
@@ -39,7 +40,9 @@ class MeasuringService
 
     public function create($params): MeasuringInterface
     {
-        $factory = $this->selectFactory($params['type']);
+        $factory = isset($params['type']) ?
+            $this->selectFactory($params['type']) :
+            new MeasuringAllFactory();
 
         $measuring = $factory->createMeasuring();
 
@@ -87,7 +90,7 @@ class MeasuringService
             "temp" => new MeasuringTempFactory(),
             "graduation" => new MeasuringGradFactory(),
             "ph" => new MeasuringPhFactory(),
-            default => null,
+            default => new MeasuringAllFactory(),
         };
     }
 
@@ -97,8 +100,12 @@ class MeasuringService
             $measuring->setYear(intval($params['year']) ?: null);
         }
 
-        if (isset($params['type']) && isset($params['value'])) {
-            $measuring->setValue($params['value']);
+        if (isset($params['type'])) {
+            if (isset($params['value'])) {
+                $measuring->setValue($params['value']);
+            }
+        } else {
+            $this->setAllValues($measuring, $params);
         }
 
         $measuring->setCreatedAt(new DateTime());
@@ -113,9 +120,30 @@ class MeasuringService
 
         if (isset($params['value'])) {
             $measuring->setValue($params['value']);
+        } else {
+            $this->setAllValues($measuring, $params);
         }
 
         $measuring->setUpdatedAt(new DateTime());
+    }
+
+    private function setAllValues($measuring, $params): void
+    {
+        if (isset($params['color'])) {
+            $measuring->setColor($params['color']);
+        }
+
+        if (isset($params['temperature'])) {
+            $measuring->setTemperature(doubleval($params['temperature']) ?: null);
+        }
+
+        if (isset($params['graduation'])) {
+            $measuring->setGraduation(doubleval($params['graduation']) ?: null);
+        }
+
+        if (isset($params['ph'])) {
+            $measuring->setPh(doubleval($params['ph']) ?: null);
+        }
     }
 
     private function handleRelationships($measuring, $params)

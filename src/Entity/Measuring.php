@@ -17,6 +17,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
         'temperature' => MeasuringTemp::class,
         'graduation' => MeasuringGrad::class,
         'ph' => MeasuringPh::class,
+        'all' => MeasuringAll::class
     ]
 )]
 class Measuring
