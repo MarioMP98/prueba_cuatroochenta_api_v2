@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Request\WineUpdateRequest;
 use App\Service\WineService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,14 +46,14 @@ class WineController extends AbstractController
      * Creates a new wine.
      *
      * Creates a new wine in the database with the data passed through the request.
-     * @param Request $request
+     * @param WineUpdateRequest $request
      * @return JsonResponse
      */
-    public function create(Request $request): JsonResponse
+    public function create(WineUpdateRequest $request): JsonResponse
     {
         try {
 
-            $wine = $this->service->create($request->request->all());
+            $wine = $this->service->create($request->getParams());
 
         } catch (Exception) {
 
@@ -68,14 +69,14 @@ class WineController extends AbstractController
      *
      * Updates an existing wine in the database with the data passed through the request.
      * @param $id
-     * @param Request $request
+     * @param WineUpdateRequest $request
      * @return JsonResponse
      */
-    public function update($id, Request $request): JsonResponse
+    public function update($id, WineUpdateRequest $request): JsonResponse
     {
         try {
 
-            $wine = $this->service->update($id, $request->request->all());
+            $wine = $this->service->update($id, $request->getParams());
 
         } catch (Exception) {
 
