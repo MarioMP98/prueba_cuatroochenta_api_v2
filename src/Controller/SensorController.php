@@ -23,13 +23,14 @@ class SensorController extends AbstractController
      * Lists the existing sensors.
      *
      * Retrieves and shows a list of all the sensors in the database, ordered alphabetically by name.
+     * @param Request $request
      * @return JsonResponse
      */
-    public function list(): JsonResponse
+    public function list(Request $request): JsonResponse
     {
         try {
 
-            $sensor = $this->service->list();
+            $sensor = $this->service->list($request->query->all());
 
         } catch (Exception) {
 

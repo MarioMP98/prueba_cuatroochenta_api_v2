@@ -21,9 +21,9 @@ class WineService
         $this->factory = $factory;
     }
 
-    public function list(): array
+    public function list($params): array
     {
-        $wines = $this->repository->list();
+        $wines = $this->repository->list($params);
 
         return $this->parseWines($wines);
     }

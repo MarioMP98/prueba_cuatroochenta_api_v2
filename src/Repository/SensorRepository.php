@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sensor;
+use App\QueryBuilder\SensorQueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,19 +12,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SensorRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected SensorQueryBuilder $builder;
+
+    public function __construct(ManagerRegistry $registry, SensorQueryBuilder $builder)
     {
         parent::__construct($registry, Sensor::class);
+        $this->builder = $builder;
     }
 
-    public function list(): array
+    public function list($params): array
     {
         $entityManager = $this->getEntityManager();
-        $sql = 'SELECT s FROM App\Entity\Sensor s';
+        $query = $this->builder->buildQuery($entityManager, $params);
 
-        $query = $entityManager->createQuery($sql);
-
-        return $query->getResult();
+        return $query->execute();
     }
 
     public function save($sensor): void

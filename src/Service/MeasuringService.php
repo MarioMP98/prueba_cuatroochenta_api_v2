@@ -30,9 +30,9 @@ class MeasuringService
         $this->wineRepository = $wineRepository;
     }
 
-    public function list(): array
+    public function list($params): array
     {
-        $measurings = $this->repository->list();
+        $measurings = $this->repository->list($params);
 
         return $this->parseMeasurings($measurings);
     }

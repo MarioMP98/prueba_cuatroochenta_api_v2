@@ -21,9 +21,9 @@ class SensorService
         $this->factory = $factory;
     }
 
-    public function list(): array
+    public function list($params): array
     {
-        $sensors = $this->repository->list();
+        $sensors = $this->repository->list($params);
 
         return $this->parseSensors($sensors);
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Wine;
+use App\QueryBuilder\WineQueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,19 +12,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WineRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected WineQueryBuilder $builder;
+
+    public function __construct(ManagerRegistry $registry, WineQueryBuilder $builder)
     {
         parent::__construct($registry, Wine::class);
+        $this->builder = $builder;
     }
 
-    public function list(): array
+    public function list($params): array
     {
         $entityManager = $this->getEntityManager();
-        $sql = 'SELECT w FROM App\Entity\Wine w';
+        $query = $this->builder->buildQuery($entityManager, $params);
 
-        $query = $entityManager->createQuery($sql);
-
-        return $query->getResult();
+        return $query->execute();
     }
 
     public function save($wine): void

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Measuring;
+use App\QueryBuilder\MeasuringQueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,19 +12,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MeasuringRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected MeasuringQueryBuilder $builder;
+
+    public function __construct(ManagerRegistry $registry, MeasuringQueryBuilder $builder)
     {
         parent::__construct($registry, Measuring::class);
+        $this->builder = $builder;
     }
 
-    public function list(): array
+    public function list($params): array
     {
         $entityManager = $this->getEntityManager();
-        $sql = 'SELECT m FROM App\Entity\Measuring m';
+        $query = $this->builder->buildQuery($entityManager, $params);
 
-        $query = $entityManager->createQuery($sql);
-
-        return $query->getResult();
+        return $query->execute();
     }
 
     public function save($measuring): void

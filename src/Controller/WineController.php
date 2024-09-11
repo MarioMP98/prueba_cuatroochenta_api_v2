@@ -23,13 +23,14 @@ class WineController extends AbstractController
      * Lists the existing wines.
      *
      * Retrieves and shows a list of all the wines in the database, including all of their measurings.
+     * @param Request $request
      * @return JsonResponse
      */
-    public function list(): JsonResponse
+    public function list(Request $request): JsonResponse
     {
         try {
 
-            $wines = $this->service->list();
+            $wines = $this->service->list($request->query->all());
 
         } catch (Exception) {
 

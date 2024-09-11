@@ -24,13 +24,14 @@ class MeasuringController extends AbstractController
      *
      * Retrieves and shows a list of all the measurings in the database, including the wine
      * that was measured and the sensor that was used.
+     * @param Request $request
      * @return JsonResponse
      */
-    public function list(): JsonResponse
+    public function list(Request $request): JsonResponse
     {
         try {
 
-            $measurings = $this->service->list();
+            $measurings = $this->service->list($request->query->all());
 
         } catch (Exception) {
 
