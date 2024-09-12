@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Request\SensorCreateRequest;
+use App\Request\SensorRequest;
 use App\Service\SensorService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,10 +46,10 @@ class SensorController extends AbstractController
      * Creates a new sensor.
      *
      * Creates a new sensor in the database with the data passed through the request.
-     * @param SensorCreateRequest $request
+     * @param SensorRequest $request
      * @return JsonResponse
      */
-    public function create(SensorCreateRequest $request): JsonResponse
+    public function create(SensorRequest $request): JsonResponse
     {
         try {
 

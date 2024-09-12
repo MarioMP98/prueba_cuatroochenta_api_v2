@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Request\UserRequest;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends AbstractController
 {
@@ -33,12 +33,12 @@ class RegistrationController extends AbstractController
      * Registers a new user.
      *
      * Creates a new user in the database with the data passed through the request.
-     * @param Request $request
+     * @param UserRequest $request
      * @return JsonResponse
      */
-    public function register(Request $request): JsonResponse
+    public function register(UserRequest $request): JsonResponse
     {
-        $user = $this->service->create($request->request->all());
+        $user = $this->service->create($request->getParams());
 
         return new JsonResponse($user, 201);
     }

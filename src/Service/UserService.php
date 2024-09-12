@@ -49,7 +49,7 @@ class UserService
     {
         $user->setEmail($params['email']);
         $user->setName($params['name']);
-        $user->setLastName($params['last_name']);
+        $user->setLastName($params['lastName']);
 
         $plaintextPassword = $params['password'];
         $hashedPassword = $this->hasher->hashPassword($user, $plaintextPassword);

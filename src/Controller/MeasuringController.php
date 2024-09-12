@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Request\MeasuringRequest;
 use App\Service\MeasuringService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,14 +47,14 @@ class MeasuringController extends AbstractController
      * Creates a new measuring.
      *
      * Creates a new measuring in the database with the data passed through the request.
-     * @param Request $request
+     * @param MeasuringRequest $request
      * @return JsonResponse
      */
-    public function create(Request $request): JsonResponse
+    public function create(MeasuringRequest $request): JsonResponse
     {
         try {
 
-            $measuring = $this->service->create($request->request->all());
+            $measuring = $this->service->create($request->getParams());
 
         } catch (Exception) {
 
