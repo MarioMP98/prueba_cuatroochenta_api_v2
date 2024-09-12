@@ -45,7 +45,7 @@ class RegistrationController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while recovering the users: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 

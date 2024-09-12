@@ -61,7 +61,7 @@ class WineController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while recovering the wines: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -107,7 +107,7 @@ class WineController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while creating the wine: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -160,7 +160,7 @@ class WineController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while updating the wine: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -212,7 +212,7 @@ class WineController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while deleting the wine: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 

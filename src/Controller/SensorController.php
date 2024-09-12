@@ -55,7 +55,7 @@ class SensorController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while recovering the sensors: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -95,7 +95,7 @@ class SensorController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while creating the sensor: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -142,7 +142,7 @@ class SensorController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while updating the sensor: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -193,7 +193,7 @@ class SensorController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while deleting the sensor: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 

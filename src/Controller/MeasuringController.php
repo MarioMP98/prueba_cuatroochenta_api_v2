@@ -68,7 +68,7 @@ class MeasuringController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while recovering the measurings: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -159,7 +159,7 @@ class MeasuringController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while creating the measuring: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -249,7 +249,7 @@ class MeasuringController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while updating the measuring: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
@@ -301,7 +301,7 @@ class MeasuringController extends AbstractController
 
             return new JsonResponse(
                 "There was an error while deleting the measuring: " . $e->getMessage(),
-                $e->getCode() ?: 500
+                500
             );
         }
 
