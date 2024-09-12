@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Collection\SensorCollection;
+use App\Decorator\SensorDecorator;
 use App\Factory\SensorFactory;
 use App\Interface\SensorInterface;
 use App\Repository\SensorRepository;
@@ -28,23 +29,26 @@ class SensorService
         return $sensors->getItems();
     }
 
-    public function create($params): SensorInterface
+    public function create($params): array
     {
         $sensor = $this->factory->createSensor();
 
         $this->assignValues($sensor, $params);
         $this->repository->save($sensor);
 
-        return $sensor;
+        $decorator = new SensorDecorator($sensor);
+        return $decorator->parse();
     }
 
-    public function update($id, $params): SensorInterface|null
+    public function update($id, $params): array|null
     {
         $sensor = $this->repository->find($id);
 
         if ($sensor) {
             $this->assignValues($sensor, $params);
             $this->repository->save($sensor);
+            $decorator = new SensorDecorator($sensor);
+            $sensor = $decorator->parse();
         }
 
         return $sensor;

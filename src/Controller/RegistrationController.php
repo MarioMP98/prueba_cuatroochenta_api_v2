@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Request\UserRequest;
 use App\Service\UserService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -24,9 +25,19 @@ class RegistrationController extends AbstractController
      */
     public function list(): JsonResponse
     {
-        $users = $this->service->list();
+        try {
 
-        return new JsonResponse($users, 200);
+            $users = $this->service->list();
+
+        } catch (Exception $e) {
+
+            return new JsonResponse(
+                "There was an error while recovering the users: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
+        }
+
+        return new JsonResponse($users);
     }
 
     /**
@@ -38,7 +49,18 @@ class RegistrationController extends AbstractController
      */
     public function register(UserRequest $request): JsonResponse
     {
-        $user = $this->service->create($request->getParams());
+        try {
+
+            $user = $this->service->create($request->getParams());
+
+        } catch (Exception $e) {
+
+            return new JsonResponse(
+                "There was an error while registering the user: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
+        }
+
 
         return new JsonResponse($user, 201);
     }

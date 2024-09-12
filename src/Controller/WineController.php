@@ -33,9 +33,12 @@ class WineController extends AbstractController
 
             $wines = $this->service->list($request->query->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("The wines couldn't be recovered");
+            return new JsonResponse(
+                "There was an error while recovering the wines: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         return new JsonResponse($wines);
@@ -55,12 +58,15 @@ class WineController extends AbstractController
 
             $wine = $this->service->create($request->getParams());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while creating the wine");
+            return new JsonResponse(
+                "There was an error while creating the wine: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
-        return new JsonResponse('New wine created with the id: ' . $wine->getId());
+        return new JsonResponse($wine, 201);
     }
 
 
@@ -78,9 +84,12 @@ class WineController extends AbstractController
 
             $wine = $this->service->update($id, $request->request->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while updating the wine");
+            return new JsonResponse(
+                "There was an error while updating the wine: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$wine) {
@@ -88,7 +97,7 @@ class WineController extends AbstractController
             return new JsonResponse('The wine to update couldn\'t be found', 404);
         }
 
-        return new JsonResponse('The wine with the id ' . $wine->getId() . ' was successfully updated');
+        return new JsonResponse($wine);
 
     }
 
@@ -107,9 +116,12 @@ class WineController extends AbstractController
 
             $wine = $this->service->delete($id, $soft);
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while deleting the wine");
+            return new JsonResponse(
+                "There was an error while deleting the wine: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$wine) {

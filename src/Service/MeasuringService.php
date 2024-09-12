@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Collection\MeasuringCollection;
+use App\Decorator\MeasuringWithRelationshipDecorator;
 use App\Factory\MeasuringAllFactory;
 use App\Factory\MeasuringColorFactory;
 use App\Factory\MeasuringGradFactory;
@@ -38,7 +39,7 @@ class MeasuringService
         return $measurings->getItems();
     }
 
-    public function create($params): MeasuringInterface
+    public function create($params): array
     {
         $factory = isset($params['type']) ?
             $this->selectFactory($params['type']) :
@@ -50,10 +51,11 @@ class MeasuringService
         $this->handleRelationships($measuring, $params);
         $this->repository->save($measuring);
 
-        return $measuring;
+        $decorator = new MeasuringWithRelationshipDecorator($measuring);
+        return $decorator->parse();
     }
 
-    public function update($id, $params): MeasuringInterface|null
+    public function update($id, $params): array|null
     {
         $measuring = $this->repository->find($id);
 
@@ -61,6 +63,9 @@ class MeasuringService
             $this->updateValues($measuring, $params);
             $this->handleRelationships($measuring, $params);
             $this->repository->save($measuring);
+
+            $decorator = new MeasuringWithRelationshipDecorator($measuring);
+            $measuring = $decorator->parse();
         }
 
         return $measuring;

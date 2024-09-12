@@ -33,9 +33,12 @@ class SensorController extends AbstractController
 
             $sensor = $this->service->list($request->query->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("The sensors couldn't be recovered");
+            return new JsonResponse(
+                "There was an error while recovering the sensors: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         return new JsonResponse($sensor);
@@ -55,12 +58,15 @@ class SensorController extends AbstractController
 
             $sensor = $this->service->create($request->getParams());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while creating the sensor", 404);
+            return new JsonResponse(
+                "There was an error while creating the sensor: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
-        return new JsonResponse('New sensor created with the id: ' . $sensor->getId());
+        return new JsonResponse($sensor, 201);
     }
 
 
@@ -78,9 +84,12 @@ class SensorController extends AbstractController
 
             $sensor = $this->service->update($id, $request->request->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while updating the sensor");
+            return new JsonResponse(
+                "There was an error while updating the sensor: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$sensor) {
@@ -88,7 +97,7 @@ class SensorController extends AbstractController
             return new JsonResponse('The sensor to update couldn\'t be found', 404);
         }
 
-        return new JsonResponse('The sensor with the id ' . $sensor->getId() . ' was successfully updated');
+        return new JsonResponse($sensor);
 
     }
 
@@ -106,9 +115,12 @@ class SensorController extends AbstractController
         try {
             $sensor = $this->service->delete($id, $soft);
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while deleting the sensor");
+            return new JsonResponse(
+                "There was an error while deleting the sensor: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$sensor) {

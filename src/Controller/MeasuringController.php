@@ -34,9 +34,12 @@ class MeasuringController extends AbstractController
 
             $measurings = $this->service->list($request->query->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("The measurings couldn't be recovered");
+            return new JsonResponse(
+                "There was an error while recovering the measurings: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         return new JsonResponse($measurings);
@@ -56,12 +59,15 @@ class MeasuringController extends AbstractController
 
             $measuring = $this->service->create($request->getParams());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while creating the measuring");
+            return new JsonResponse(
+                "There was an error while creating the measuring: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
-        return new JsonResponse('New measuring created with the id: ' . $measuring->getId());
+        return new JsonResponse($measuring, 201);
     }
 
 
@@ -79,9 +85,12 @@ class MeasuringController extends AbstractController
 
             $measuring = $this->service->update($id, $request->request->all());
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while updating the measuring");
+            return new JsonResponse(
+                "There was an error while updating the measuring: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$measuring) {
@@ -89,7 +98,7 @@ class MeasuringController extends AbstractController
             return new JsonResponse('The measuring to update couldn\'t be found', 404);
         }
 
-        return new JsonResponse('The measuring with the id ' . $measuring->getId() . ' was successfully updated');
+        return new JsonResponse($measuring);
 
     }
 
@@ -109,9 +118,12 @@ class MeasuringController extends AbstractController
 
             $measuring = $this->service->delete($id, $soft);
 
-        } catch (Exception) {
+        } catch (Exception $e) {
 
-            return new JsonResponse("There was an error while deleting the measuring");
+            return new JsonResponse(
+                "There was an error while deleting the measuring: " . $e->getMessage(),
+                $e->getCode() ?: 500
+            );
         }
 
         if (!$measuring) {

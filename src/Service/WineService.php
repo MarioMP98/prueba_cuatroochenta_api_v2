@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Collection\WineCollection;
+use App\Decorator\WineWithMeasuringsDecorator;
 use App\Factory\WineFactory;
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
@@ -28,23 +29,28 @@ class WineService
         return $wines->getItems();
     }
 
-    public function create($params): WineInterface
+    public function create($params): array
     {
         $wine = $this->factory->createWine();
 
         $this->assignValues($wine, $params);
         $this->repository->save($wine);
 
-        return $wine;
+        $decorator = new WineWithMeasuringsDecorator($wine);
+
+        return $decorator->parse();
     }
 
-    public function update($id, $params): WineInterface|null
+    public function update($id, $params): array|null
     {
         $wine = $this->repository->find($id);
 
         if ($wine) {
             $this->assignValues($wine, $params);
             $this->repository->save($wine);
+
+            $decorator = new WineWithMeasuringsDecorator($wine);
+            $wine = $decorator->parse();
         }
 
         return $wine;
