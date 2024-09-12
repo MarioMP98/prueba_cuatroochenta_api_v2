@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,27 @@ class ApiLoginController extends AbstractController
      * @param User|null $user
      * @return Response
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The logged in user',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: User::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'email',
+        in: 'query',
+        description: 'The email assigned as the user\' key',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'password',
+        in: 'query',
+        description: 'The password corresponding to that user',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'User')]
     public function login(#[CurrentUser] ?User $user): Response
     {
 
@@ -38,6 +61,14 @@ class ApiLoginController extends AbstractController
      * @param Security $security
      * @return Response
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The logged in user',
+        content: new OA\JsonContent(
+            type: 'redirection'
+        )
+    )]
+    #[OA\Tag(name: 'User')]
     public function logout(Security $security): Response
     {
 

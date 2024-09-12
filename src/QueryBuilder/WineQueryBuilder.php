@@ -20,6 +20,8 @@ class WineQueryBuilder
             $query->andWhere('w.year = :year')->setParameter('year', $params['year']);
         }
 
+        $query->orderBy('w.id');
+
         return $query->getQuery();
     }
 }

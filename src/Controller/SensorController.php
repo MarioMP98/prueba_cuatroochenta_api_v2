@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Sensor;
 use App\Request\SensorRequest;
 use App\Service\SensorService;
 use Exception;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +30,21 @@ class SensorController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The list of sensors',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Sensor::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'isDeleted',
+        in: 'path',
+        description: 'Brings soft deleted entities as well',
+        schema: new OA\Schema(type: 'bool')
+    )]
+    #[OA\Tag(name: 'Sensor')]
     public function list(Request $request): JsonResponse
     {
         try {
@@ -52,6 +70,21 @@ class SensorController extends AbstractController
      * @param SensorRequest $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 201,
+        description: 'The recently created entity',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Sensor::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the sensor',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'Sensor')]
     public function create(SensorRequest $request): JsonResponse
     {
         try {
@@ -78,6 +111,27 @@ class SensorController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The updated entity with the new values',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Sensor::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the sensor to update',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the sensor',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Tag(name: 'Sensor')]
     public function update($id, Request $request): JsonResponse
     {
         try {
@@ -110,6 +164,26 @@ class SensorController extends AbstractController
      * @param bool $soft
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message that the entity was successfully deleted',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the sensor to delete',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'soft',
+        in: 'path',
+        description: 'Determines if the entity is soft deleted or fully deleted',
+        schema: new OA\Schema(type: 'bool')
+    )]
+    #[OA\Tag(name: 'Sensor')]
     public function delete($id, $soft = true): JsonResponse
     {
         try {

@@ -25,6 +25,8 @@ class MeasuringQueryBuilder
             $query->andWhere('m.year = :year')->setParameter('year', $params['year']);
         }
 
+        $query->orderBy('m.id');
+
         return $query->getQuery();
     }
 }

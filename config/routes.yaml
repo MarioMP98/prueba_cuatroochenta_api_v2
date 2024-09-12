@@ -4,6 +4,15 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+
+########## DOC ##########
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+
 ########## USER ##########
 
 login:
@@ -27,6 +36,7 @@ user_list:
     path:       /api/users
     controller: App\Controller\RegistrationController::list
     methods:    GET
+
 
 ######### SENSOR #########
 

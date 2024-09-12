@@ -16,6 +16,8 @@ class SensorQueryBuilder
             $query->where('s.deletedAt IS NULL');
         }
 
+        $query->orderBy('s.name');
+
         return $query->getQuery();
     }
 }

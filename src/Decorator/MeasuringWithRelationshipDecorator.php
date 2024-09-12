@@ -8,11 +8,15 @@ class MeasuringWithRelationshipDecorator extends MeasuringDecorator
     {
         $measuring = $this->measuring->parse();
 
-        $sensorDecorator = new SensorDecorator($this->measuring->getSensor());
-        $wineDecorator = new WineDecorator($this->measuring->getWine());
+        if ($this->measuring->getSensor()) {
+            $sensorDecorator = new SensorDecorator($this->measuring->getSensor());
+            $measuring['sensor'] = $sensorDecorator->parse();
+        }
 
-        $measuring['sensor'] = $sensorDecorator->parse();
-        $measuring['wine'] = $wineDecorator->parse();
+        if ($this->measuring->getWine()) {
+            $wineDecorator = new WineDecorator($this->measuring->getWine());
+            $measuring['wine'] = $wineDecorator->parse();
+        }
 
         return $measuring;
     }

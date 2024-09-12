@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Wine;
 use App\Request\WineRequest;
 use App\Service\WineService;
 use Exception;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +30,27 @@ class WineController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The list of wines',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Wine::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'path',
+        description: 'Filters the wines from one specific year',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'isDeleted',
+        in: 'path',
+        description: 'Brings soft deleted entities as well',
+        schema: new OA\Schema(type: 'bool')
+    )]
+    #[OA\Tag(name: 'Wine')]
     public function list(Request $request): JsonResponse
     {
         try {
@@ -52,6 +76,27 @@ class WineController extends AbstractController
      * @param WineRequest $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 201,
+        description: 'The recently created entity',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Wine::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the wine was made',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Tag(name: 'Wine')]
     public function create(WineRequest $request): JsonResponse
     {
         try {
@@ -78,6 +123,33 @@ class WineController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'The updated entity with the new values',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Wine::class))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the wine to update',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'name',
+        in: 'query',
+        description: 'A name to assign to the wine',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'year',
+        in: 'query',
+        description: 'The year the wine was made',
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Tag(name: 'Wine')]
     public function update($id, Request $request): JsonResponse
     {
         try {
@@ -110,6 +182,26 @@ class WineController extends AbstractController
      * @param bool $soft
      * @return JsonResponse
      */
+    #[OA\Response(
+        response: 200,
+        description: 'A confirmation message that the entity was successfully deleted',
+        content: new OA\JsonContent(
+            type: 'string'
+        )
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        description: 'The id of the wine to delete',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'soft',
+        in: 'path',
+        description: 'Determines if the entity is soft deleted or fully deleted',
+        schema: new OA\Schema(type: 'bool')
+    )]
+    #[OA\Tag(name: 'Wine')]
     public function delete($id, $soft = true): JsonResponse
     {
         try {
