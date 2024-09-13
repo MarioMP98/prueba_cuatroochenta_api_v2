@@ -53,7 +53,7 @@ sensor_create:
 sensor_update:
     path:       /api/sensors/{id}
     controller: App\Controller\SensorController::update
-    methods:    POST
+    methods:    PUT
 
 sensor_delete:
     path:       /api/sensors/{id}/{soft}
@@ -76,7 +76,7 @@ wine_create:
 wine_update:
     path:       /api/wines/{id}
     controller: App\Controller\WineController::update
-    methods:    POST
+    methods:    PUT
 
 wine_delete:
     path:       /api/wines/{id}/{soft}
@@ -98,7 +98,7 @@ measuring_create:
 measuring_update:
     path:       /api/measurings/{id}
     controller: App\Controller\MeasuringController::update
-    methods:    POST
+    methods:    PUT
 
 measuring_delete:
     path:       /api/measurings/{id}/{soft}

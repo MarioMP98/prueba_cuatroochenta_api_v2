@@ -136,7 +136,7 @@ class SensorController extends AbstractController
     {
         try {
 
-            $sensor = $this->service->update($id, $request->request->all());
+            $sensor = $this->service->update($id, $request->query->all());
 
         } catch (Exception $e) {
 

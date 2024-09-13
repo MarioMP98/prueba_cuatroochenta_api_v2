@@ -243,7 +243,7 @@ class MeasuringController extends AbstractController
     {
         try {
 
-            $measuring = $this->service->update($id, $request->request->all());
+            $measuring = $this->service->update($id, $request->query->all());
 
         } catch (Exception $e) {
 

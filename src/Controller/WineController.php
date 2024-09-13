@@ -154,7 +154,7 @@ class WineController extends AbstractController
     {
         try {
 
-            $wine = $this->service->update($id, $request->request->all());
+            $wine = $this->service->update($id, $request->query->all());
 
         } catch (Exception $e) {
 
