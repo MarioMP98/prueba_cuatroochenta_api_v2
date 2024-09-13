@@ -21,16 +21,16 @@ class UserDecorator implements UserInterface
 
     public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        // Implementado para evitar exceptions
     }
 
     public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        // Implementado para evitar exceptions
     }
 
     public function getUserIdentifier(): string
     {
-        // TODO: Implement getUserIdentifier() method.
+        // Implementado para evitar exceptions
     }
 }

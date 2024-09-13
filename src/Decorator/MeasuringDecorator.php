@@ -22,51 +22,51 @@ class MeasuringDecorator implements MeasuringInterface
 
     public function getId()
     {
-        // TODO: Implement getId() method.
+        // Implementado para evitar exceptions
     }
 
     public function getName()
     {
-        // TODO: Implement getName() method.
+        // Implementado para evitar exceptions
     }
 
     public function setName(?string $name)
     {
-        // TODO: Implement setName() method.
+        // Implementado para evitar exceptions
     }
 
     public function getYear()
     {
-        // TODO: Implement getYear() method.
+        // Implementado para evitar exceptions
     }
 
     public function setYear(?int $year)
     {
-        // TODO: Implement setYear() method.
+        // Implementado para evitar exceptions
     }
 
     public function setCreatedAt(DateTime $createdAt)
     {
-        // TODO: Implement setCreatedAt() method.
+        // Implementado para evitar exceptions
     }
 
     public function setUpdatedAt(DateTime $updatedAt)
     {
-        // TODO: Implement setUpdatedAt() method.
+        // Implementado para evitar exceptions
     }
 
     public function setDeletedAt(?DateTime $deletedAt = null)
     {
-        // TODO: Implement setDeletedAt() method.
+        // Implementado para evitar exceptions
     }
 
     public function getValue()
     {
-        // TODO: Implement getValue() method.
+        // Implementado para evitar exceptions
     }
 
     public function setValue($value): static
     {
-        // TODO: Implement setValue() method.
+        // Implementado para evitar exceptions
     }
 }

@@ -18,14 +18,7 @@ class MeasuringCollection implements IteratorAggregate
 
     public function getItems(): array
     {
-        $array = array();
-
-        foreach ($this->items as $item) {
-            $decorator = new MeasuringWithRelationshipDecorator($item);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
+        return $this->items;
     }
 
     public function addItem($item)
@@ -41,5 +34,10 @@ class MeasuringCollection implements IteratorAggregate
     public function getReverseIterator(): Iterator
     {
         return new CustomIterator($this, true);
+    }
+
+    public function getDecorator($item): MeasuringWithRelationshipDecorator
+    {
+        return new MeasuringWithRelationshipDecorator($item);
     }
 }

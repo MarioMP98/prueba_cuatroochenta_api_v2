@@ -13,32 +13,36 @@ use Doctrine\Persistence\ManagerRegistry;
 class SensorRepository extends ServiceEntityRepository
 {
     protected SensorQueryBuilder $builder;
+    protected $entityManager;
 
     public function __construct(ManagerRegistry $registry, SensorQueryBuilder $builder)
     {
         parent::__construct($registry, Sensor::class);
+        $this->entityManager = $this->getEntityManager();
         $this->builder = $builder;
     }
 
     public function list($params): array
     {
-        $entityManager = $this->getEntityManager();
-        $query = $this->builder->buildQuery($entityManager, $params);
+        $query = $this->builder->buildQuery($this->entityManager, $params);
 
         return $query->execute();
     }
 
-    public function save($sensor): void
+    public function create($sensor): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($sensor);
-        $entityManager->flush();
+        $this->entityManager->persist($sensor);
+        $this->save();
     }
 
     public function delete($sensor): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->remove($sensor);
-        $entityManager->flush();
+        $this->entityManager->remove($sensor);
+        $this->save();
+    }
+
+    public function save(): void
+    {
+        $this->entityManager->flush();
     }
 }

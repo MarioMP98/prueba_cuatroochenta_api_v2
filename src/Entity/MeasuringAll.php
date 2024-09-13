@@ -87,11 +87,11 @@ class MeasuringAll extends Measuring implements MeasuringInterface
 
     public function getValue()
     {
-        // TODO: Implement getValue() method.
+        // Implementado para evitar exceptions
     }
 
     public function setValue($value): static
     {
-        // TODO: Implement setValue() method.
+        // Implementado para evitar exceptions
     }
 }

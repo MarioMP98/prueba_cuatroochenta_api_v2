@@ -14,16 +14,23 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    protected $entityManager;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this->entityManager = $this->getEntityManager();
     }
 
-    public function save($user): void
+    public function create($user): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->entityManager->persist($user);
+        $this->save();
+    }
+
+    public function save(): void
+    {
+        $this->entityManager->flush();
     }
 
     /**

@@ -21,16 +21,16 @@ class SensorDecorator implements SensorInterface
 
     public function getId()
     {
-        // TODO: Implement getId() method.
+        // Implementado para evitar exceptions
     }
 
     public function getName()
     {
-        // TODO: Implement getName() method.
+        // Implementado para evitar exceptions
     }
 
     public function setName(?string $name)
     {
-        // TODO: Implement setName() method.
+        // Implementado para evitar exceptions
     }
 }

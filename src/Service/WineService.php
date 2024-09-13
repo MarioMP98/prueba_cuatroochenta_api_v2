@@ -2,39 +2,46 @@
 
 namespace App\Service;
 
+use App\Assembler\WineAssembler;
 use App\Collection\WineCollection;
 use App\Decorator\WineWithMeasuringsDecorator;
 use App\Factory\WineFactory;
 use App\Interface\WineInterface;
 use App\Repository\WineRepository;
+use App\Traits\CollectionParser;
 use DateTime;
 
 class WineService
 {
+    use CollectionParser;
+
     protected WineRepository $repository;
     protected WineFactory $factory;
+    protected WineAssembler $assembler;
 
     public function __construct(
         WineRepository $repository,
-        WineFactory $factory
+        WineFactory $factory,
+        WineAssembler $allocator
     ) {
         $this->repository = $repository;
         $this->factory = $factory;
+        $this->assembler = $allocator;
     }
 
     public function list($params): array
     {
         $wines = new WineCollection($this->repository->list($params));
 
-        return $wines->getItems();
+        return $this->parseCollection($wines);
     }
 
     public function create($params): array
     {
         $wine = $this->factory->createWine();
 
-        $this->assignValues($wine, $params);
-        $this->repository->save($wine);
+        $this->assembler->assignValues($wine, $params);
+        $this->repository->create($wine);
 
         $decorator = new WineWithMeasuringsDecorator($wine);
 
@@ -46,8 +53,8 @@ class WineService
         $wine = $this->repository->find($id);
 
         if ($wine) {
-            $this->assignValues($wine, $params);
-            $this->repository->save($wine);
+            $this->assembler->assignValues($wine, $params);
+            $this->repository->save();
 
             $decorator = new WineWithMeasuringsDecorator($wine);
             $wine = $decorator->parse();
@@ -64,29 +71,12 @@ class WineService
 
             if ($soft) {
                 $wine->setDeletedAt(new DateTime());
-                $this->repository->save($wine);
+                $this->repository->save();
             } else {
                 $this->repository->delete($wine);
             }
         }
 
         return $wine;
-    }
-
-    private function assignValues($wine, $params): void
-    {
-        if (isset($params['year'])) {
-            $wine->setYear(intval($params['year']) ?: null);
-        }
-
-        if (isset($params['name'])) {
-            $wine->setName($params['name']);
-        }
-
-        if (is_null($wine->getId())) {
-            $wine->setCreatedAt(new DateTime());
-        }
-
-        $wine->setUpdatedAt(new DateTime());
     }
 }

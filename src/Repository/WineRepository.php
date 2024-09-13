@@ -13,32 +13,36 @@ use Doctrine\Persistence\ManagerRegistry;
 class WineRepository extends ServiceEntityRepository
 {
     protected WineQueryBuilder $builder;
+    protected $entityManager;
 
     public function __construct(ManagerRegistry $registry, WineQueryBuilder $builder)
     {
         parent::__construct($registry, Wine::class);
+        $this->entityManager = $this->getEntityManager();
         $this->builder = $builder;
     }
 
     public function list($params): array
     {
-        $entityManager = $this->getEntityManager();
-        $query = $this->builder->buildQuery($entityManager, $params);
+        $query = $this->builder->buildQuery($this->entityManager, $params);
 
         return $query->execute();
     }
 
-    public function save($wine): void
+    public function create($wine): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($wine);
-        $entityManager->flush();
+        $this->entityManager->persist($wine);
+        $this->save();
     }
 
     public function delete($wine): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->remove($wine);
-        $entityManager->flush();
+        $this->entityManager->remove($wine);
+        $this->save();
+    }
+
+    public function save(): void
+    {
+        $this->entityManager->flush();
     }
 }

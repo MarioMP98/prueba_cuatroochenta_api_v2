@@ -18,14 +18,7 @@ class WineCollection implements IteratorAggregate
 
     public function getItems(): array
     {
-        $array = array();
-
-        foreach ($this->items as $item) {
-            $decorator = new WineWithMeasuringsDecorator($item);
-            $array[] = $decorator->parse();
-        }
-
-        return $array;
+        return $this->items;
     }
 
     public function addItem($item)
@@ -41,5 +34,10 @@ class WineCollection implements IteratorAggregate
     public function getReverseIterator(): Iterator
     {
         return new CustomIterator($this, true);
+    }
+
+    public function getDecorator($item): WineWithMeasuringsDecorator
+    {
+        return new WineWithMeasuringsDecorator($item);
     }
 }

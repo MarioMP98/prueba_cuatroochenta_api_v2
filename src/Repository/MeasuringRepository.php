@@ -13,32 +13,36 @@ use Doctrine\Persistence\ManagerRegistry;
 class MeasuringRepository extends ServiceEntityRepository
 {
     protected MeasuringQueryBuilder $builder;
+    protected $entityManager;
 
     public function __construct(ManagerRegistry $registry, MeasuringQueryBuilder $builder)
     {
         parent::__construct($registry, Measuring::class);
+        $this->entityManager = $this->getEntityManager();
         $this->builder = $builder;
     }
 
     public function list($params): array
     {
-        $entityManager = $this->getEntityManager();
-        $query = $this->builder->buildQuery($entityManager, $params);
+        $query = $this->builder->buildQuery($this->entityManager, $params);
 
         return $query->execute();
     }
 
-    public function save($measuring): void
+    public function create($measuring): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($measuring);
-        $entityManager->flush();
+        $this->entityManager->persist($measuring);
+        $this->save();
     }
 
     public function delete($measuring): void
     {
-        $entityManager = $this->getEntityManager();
-        $entityManager->remove($measuring);
-        $entityManager->flush();
+        $this->entityManager->remove($measuring);
+        $this->save();
+    }
+
+    public function save(): void
+    {
+        $this->entityManager->flush();
     }
 }

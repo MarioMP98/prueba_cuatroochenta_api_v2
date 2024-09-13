@@ -2,63 +2,48 @@
 
 namespace App\Service;
 
+use App\Assembler\UserAssembler;
 use App\Collection\UserCollection;
 use App\Decorator\UserDecorator;
 use App\Factory\UserFactory;
 use App\Repository\UserRepository;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use DateTime;
+use App\Traits\CollectionParser;
 
 class UserService
 {
+    use CollectionParser;
+
     protected UserRepository $repository;
-    protected UserPasswordHasherInterface $hasher;
     protected UserFactory $factory;
+    protected UserAssembler $assembler;
 
     public function __construct(
         UserRepository $repository,
-        UserPasswordHasherInterface $hasher,
-        UserFactory $factory
+        UserFactory $factory,
+        UserAssembler $assembler,
     ) {
         $this->repository = $repository;
-        $this->hasher = $hasher;
         $this->factory = $factory;
+        $this->assembler = $assembler;
     }
 
     public function list(): array
     {
         $users = new UserCollection($this->repository->findAll());
 
-        return $users->getItems();
+        return $this->parseCollection($users);
     }
 
     public function create($params): array
     {
         $user = $this->factory->createUser();
 
-        $this->assignValues($user, $params);
+        $this->assembler->assignValues($user, $params);
 
-        $this->repository->save($user);
+        $this->repository->create($user);
 
         $decorator = new UserDecorator($user);
 
         return $decorator->parse();
-    }
-
-    private function assignValues($user, $params): void
-    {
-        $user->setEmail($params['email']);
-        $user->setName($params['name']);
-        $user->setLastName($params['lastName']);
-
-        $plaintextPassword = $params['password'];
-        $hashedPassword = $this->hasher->hashPassword($user, $plaintextPassword);
-        $user->setPassword($hashedPassword);
-
-        if (is_null($user->getId())) {
-            $user->setCreatedAt(new DateTime());
-        }
-
-        $user->setUpdatedAt(new DateTime());
     }
 }
