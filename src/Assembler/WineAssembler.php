@@ -22,4 +22,11 @@ class WineAssembler
 
         $wine->setUpdatedAt(new DateTime());
     }
+
+    public function detachMeasurings($wine): void
+    {
+        foreach ($wine->getMeasurings() as $measuring) {
+            $wine->removeMeasuring($measuring);
+        }
+    }
 }

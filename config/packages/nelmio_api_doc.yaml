@@ -1,9 +1,9 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: My App
-            description: This is an awesome app!
-            version: 1.0.0
+            title: API Prueba Cuatroochenta V2
+            description: La API que he hecho como prueba para entrar a trabajar en Cuatroochenta
+            version: 2.0.0
     areas:
         path_patterns:
             - ^/api(?!/doc$)

@@ -73,6 +73,7 @@ class WineService
                 $wine->setDeletedAt(new DateTime());
                 $this->repository->save();
             } else {
+                $this->assembler->detachMeasurings($wine);
                 $this->repository->delete($wine);
             }
         }

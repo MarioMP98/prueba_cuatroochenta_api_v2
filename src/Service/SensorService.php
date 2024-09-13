@@ -72,6 +72,7 @@ class SensorService
                 $sensor->setDeletedAt(new DateTime());
                 $this->repository->save();
             } else {
+                $this->assembler->detachMeasurings($sensor);
                 $this->repository->delete($sensor);
             }
         }

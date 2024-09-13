@@ -18,4 +18,11 @@ class SensorAssembler
 
         $sensor->setUpdatedAt(new DateTime());
     }
+
+    public function detachMeasurings($sensor): void
+    {
+        foreach ($sensor->getMeasurings() as $measuring) {
+            $sensor->removeMeasuring($measuring);
+        }
+    }
 }
