@@ -54,11 +54,8 @@ class WineController extends AbstractController
     public function list(Request $request): JsonResponse
     {
         try {
-
             $wines = $this->service->list($request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while recovering the wines: " . $e->getMessage(),
                 500
@@ -100,11 +97,8 @@ class WineController extends AbstractController
     public function create(WineRequest $request): JsonResponse
     {
         try {
-
             $wine = $this->service->create($request->getParams());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while creating the wine: " . $e->getMessage(),
                 500
@@ -153,11 +147,8 @@ class WineController extends AbstractController
     public function update($id, Request $request): JsonResponse
     {
         try {
-
             $wine = $this->service->update($id, $request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while updating the wine: " . $e->getMessage(),
                 500
@@ -165,12 +156,10 @@ class WineController extends AbstractController
         }
 
         if (!$wine) {
-
             return new JsonResponse('The wine to update couldn\'t be found', 404);
         }
 
         return new JsonResponse($wine);
-
     }
 
 
@@ -205,11 +194,8 @@ class WineController extends AbstractController
     public function delete($id, $soft = true): JsonResponse
     {
         try {
-
             $wine = $this->service->delete($id, $soft);
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while deleting the wine: " . $e->getMessage(),
                 500
@@ -217,7 +203,6 @@ class WineController extends AbstractController
         }
 
         if (!$wine) {
-
             return new JsonResponse('The wine to delete couldn\'t be found', 404);
         }
 

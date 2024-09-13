@@ -67,7 +67,6 @@ class SensorService
         $sensor = $this->repository->find($id);
 
         if ($sensor) {
-
             if ($soft) {
                 $sensor->setDeletedAt(new DateTime());
                 $this->repository->save();

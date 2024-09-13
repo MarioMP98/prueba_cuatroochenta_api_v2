@@ -16,7 +16,6 @@ class MeasuringController extends AbstractController
 {
     protected MeasuringService $service;
 
-
     public function __construct(MeasuringService $service)
     {
         $this->service = $service;
@@ -61,11 +60,8 @@ class MeasuringController extends AbstractController
     public function list(Request $request): JsonResponse
     {
         try {
-
             $measurings = $this->service->list($request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while recovering the measurings: " . $e->getMessage(),
                 500
@@ -152,11 +148,8 @@ class MeasuringController extends AbstractController
     public function create(MeasuringRequest $request): JsonResponse
     {
         try {
-
             $measuring = $this->service->create($request->getParams());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while creating the measuring: " . $e->getMessage(),
                 500
@@ -242,11 +235,8 @@ class MeasuringController extends AbstractController
     public function update($id, Request $request): JsonResponse
     {
         try {
-
             $measuring = $this->service->update($id, $request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while updating the measuring: " . $e->getMessage(),
                 500
@@ -254,12 +244,10 @@ class MeasuringController extends AbstractController
         }
 
         if (!$measuring) {
-
             return new JsonResponse('The measuring to update couldn\'t be found', 404);
         }
 
         return new JsonResponse($measuring);
-
     }
 
 
@@ -294,11 +282,8 @@ class MeasuringController extends AbstractController
     public function delete($id, $soft = true): JsonResponse
     {
         try {
-
             $measuring = $this->service->delete($id, $soft);
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while deleting the measuring: " . $e->getMessage(),
                 500
@@ -306,7 +291,6 @@ class MeasuringController extends AbstractController
         }
 
         if (!$measuring) {
-
             return new JsonResponse('The measuring to delete couldn\'t be found', 404);
         }
 

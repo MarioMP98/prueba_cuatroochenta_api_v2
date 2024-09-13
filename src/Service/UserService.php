@@ -37,13 +37,11 @@ class UserService
     public function create($params): array
     {
         $user = $this->factory->createUser();
-
         $this->assembler->assignValues($user, $params);
 
         $this->repository->create($user);
 
         $decorator = new UserDecorator($user);
-
         return $decorator->parse();
     }
 }

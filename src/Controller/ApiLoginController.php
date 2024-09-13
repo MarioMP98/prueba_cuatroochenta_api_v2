@@ -42,7 +42,6 @@ class ApiLoginController extends AbstractController
     #[OA\Tag(name: 'User')]
     public function login(#[CurrentUser] ?User $user): Response
     {
-
         if (null === $user) {
             return $this->json([
                 'message' => 'missing credentials',
@@ -71,7 +70,6 @@ class ApiLoginController extends AbstractController
     #[OA\Tag(name: 'User')]
     public function logout(Security $security): Response
     {
-
         return $security->logout(false);
     }
 }

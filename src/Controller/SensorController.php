@@ -16,7 +16,6 @@ class SensorController extends AbstractController
 {
     protected SensorService $service;
 
-
     public function __construct(SensorService $service)
     {
         $this->service = $service;
@@ -48,11 +47,8 @@ class SensorController extends AbstractController
     public function list(Request $request): JsonResponse
     {
         try {
-
             $sensor = $this->service->list($request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while recovering the sensors: " . $e->getMessage(),
                 500
@@ -88,11 +84,8 @@ class SensorController extends AbstractController
     public function create(SensorRequest $request): JsonResponse
     {
         try {
-
             $sensor = $this->service->create($request->getParams());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while creating the sensor: " . $e->getMessage(),
                 500
@@ -135,11 +128,8 @@ class SensorController extends AbstractController
     public function update($id, Request $request): JsonResponse
     {
         try {
-
             $sensor = $this->service->update($id, $request->query->all());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while updating the sensor: " . $e->getMessage(),
                 500
@@ -147,12 +137,10 @@ class SensorController extends AbstractController
         }
 
         if (!$sensor) {
-
             return new JsonResponse('The sensor to update couldn\'t be found', 404);
         }
 
         return new JsonResponse($sensor);
-
     }
 
 
@@ -188,9 +176,7 @@ class SensorController extends AbstractController
     {
         try {
             $sensor = $this->service->delete($id, $soft);
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while deleting the sensor: " . $e->getMessage(),
                 500
@@ -198,7 +184,6 @@ class SensorController extends AbstractController
         }
 
         if (!$sensor) {
-
             return new JsonResponse('The sensor to delete couldn\'t be found', 404);
         }
 

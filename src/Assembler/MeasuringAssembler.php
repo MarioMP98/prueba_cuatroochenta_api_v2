@@ -14,8 +14,7 @@ class MeasuringAssembler
     public function __construct(
         SensorRepository $sensorRepository,
         WineRepository $wineRepository
-    )
-    {
+    ) {
         $this->sensorRepository = $sensorRepository;
         $this->wineRepository = $wineRepository;
     }

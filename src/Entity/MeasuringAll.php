@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Interface\MeasuringInterface;
-use App\Repository\MeasuringAllRepository;
+use App\Repository\MeasuringRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MeasuringAllRepository::class)]
+#[ORM\Entity(repositoryClass: MeasuringRepository::class)]
 class MeasuringAll extends Measuring implements MeasuringInterface
 {
     #[ORM\Column(length: 255, nullable: true)]

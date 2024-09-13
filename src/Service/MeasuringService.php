@@ -72,7 +72,6 @@ class MeasuringService
         $measuring = $this->repository->find($id);
 
         if ($measuring) {
-
             if ($soft) {
                 $measuring->setDeletedAt(new DateTime());
                 $this->repository->save();

@@ -44,7 +44,6 @@ class WineService
         $this->repository->create($wine);
 
         $decorator = new WineWithMeasuringsDecorator($wine);
-
         return $decorator->parse();
     }
 
@@ -68,7 +67,6 @@ class WineService
         $wine = $this->repository->find($id);
 
         if ($wine) {
-
             if ($soft) {
                 $wine->setDeletedAt(new DateTime());
                 $this->repository->save();

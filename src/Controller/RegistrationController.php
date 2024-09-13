@@ -20,6 +20,7 @@ class RegistrationController extends AbstractController
         $this->service = $service;
     }
 
+
     /**
      * Lists the existing users.
      *
@@ -38,11 +39,8 @@ class RegistrationController extends AbstractController
     public function list(): JsonResponse
     {
         try {
-
             $users = $this->service->list();
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while recovering the users: " . $e->getMessage(),
                 500
@@ -51,6 +49,7 @@ class RegistrationController extends AbstractController
 
         return new JsonResponse($users);
     }
+
 
     /**
      * Registers a new user.
@@ -95,17 +94,13 @@ class RegistrationController extends AbstractController
     public function register(UserRequest $request): JsonResponse
     {
         try {
-
             $user = $this->service->create($request->getParams());
-
         } catch (Exception $e) {
-
             return new JsonResponse(
                 "There was an error while registering the user: " . $e->getMessage(),
                 500
             );
         }
-
 
         return new JsonResponse($user, 201);
     }
